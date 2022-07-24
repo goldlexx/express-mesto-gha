@@ -1,7 +1,17 @@
 [![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
-# Проект Mesto фронтенд + бэкенд
+# Проект "Mesto фронтенд + бэкенд". Создана в рамках учебы в [Яндекс.Практикум](https://praktikum.yandex.ru/) на курсе ["Веб-разработчик"](https://praktikum.yandex.ru/web/).
 
+## Возможности
+- проверка токенов
+- регистрация и авторизация пользователей
+- сохранение и выдача карточек
+- сохранение лайков
 
+## Стек технологий
+- Node.js
+- express.js
+- MongoDB
+- Mongoose
 
 ## Настройка бейджей статуса тестов
 Перед началом работы над проектом рекомендуется исправить бейджи, отражающие статус прохождения тестов.
@@ -26,3 +36,7 @@
 
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
+
+
+
+
