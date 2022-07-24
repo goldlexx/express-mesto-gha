@@ -27,7 +27,7 @@ module.exports.updateUserInfo = (req, res) => {
   User.findByIdAndUpdate(
     userId,
     { name, about },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => res.send({ data: user }))
     .catch((err) => errorMessage(err, req, res));

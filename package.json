@@ -13,7 +13,7 @@
     "url": "git+https://github.com/goldlexx/express-mesto-gha.git"
   },
   "keywords": ["место", "яндекс практикум"],
-  "author": "Ruslan Yu",
+  "author": "Ruslan Yu.",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/goldlexx/express-mesto-gha/issues"

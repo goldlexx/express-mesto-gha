@@ -1,7 +1,7 @@
 const errorMessage = (err, req, res) => {
   if (err.name === 'CastError') {
     res.status(400).send({
-      message: 'Invalid format of the transmitted data',
+      message: 'Переданы некорректные данные',
     });
     return;
   }
@@ -18,7 +18,7 @@ const errorMessage = (err, req, res) => {
     return;
   }
   res.status(500).send({
-    message: 'Request not processed',
+    message: 'На сервере произошла ошибка',
   });
 };
 
