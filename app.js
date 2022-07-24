@@ -19,6 +19,10 @@ app.use((req, res, next) => {
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
 
+app.use((req, res) => {
+  res.status(404).send({ message: 'Такой страницы не существует' });
+});
+
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
   console.log('Connected to db');
