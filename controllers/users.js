@@ -23,10 +23,7 @@ module.exports.getUserById = (req, res) => {
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
-    .then((user) => {
-      res.status(201).send({ message: 'Created' });
-      res.send({ data: user });
-    })
+    .then((user) => res.send({ data: user }))
     .catch((err) => errorMessage(err, req, res));
 };
 

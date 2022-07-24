@@ -11,10 +11,7 @@ module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
   const ownerId = req.user._id;
   Card.create({ name, link, owner: ownerId })
-    .then((card) => {
-      res.status(201).send({ message: 'Created' });
-      res.send({ data: card });
-    })
+    .then((card) => res.send({ data: card }))
     .catch((err) => errorMessage(err, req, res));
 };
 
