@@ -11,6 +11,12 @@ const errorMessage = (err, req, res) => {
     });
     return;
   }
+  if (err.name === 'DocumentNotFoundError') {
+    res.status(404).send({
+      message: 'Объект не найден',
+    });
+    return;
+  }
   res.status(500).send({
     message: 'На сервере произошла ошибка',
   });

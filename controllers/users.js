@@ -10,13 +10,8 @@ module.exports.getUsers = (req, res) => {
 module.exports.getUserById = (req, res) => {
   const { userId } = req.params;
   User.findById(userId)
-    .then((user) => {
-      if (!user) {
-        res.status(404).send({ message: 'Пользователь не найден' });
-        return;
-      }
-      res.send({ data: user });
-    })
+    .orFail()
+    .then((user) => res.send({ data: user }))
     .catch((err) => errorMessage(err, req, res));
 };
 
@@ -34,7 +29,8 @@ module.exports.updateUserInfo = (req, res) => {
     userId,
     { name, about },
     { new: true, runValidators: true },
-  ).orFail()
+  )
+    .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => errorMessage(err, req, res));
 };
@@ -42,7 +38,8 @@ module.exports.updateUserInfo = (req, res) => {
 module.exports.updateUserAvatar = (req, res) => {
   const { avatar } = req.body;
   const userId = req.user._id;
-  User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true }).orFail()
+  User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
+    .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => errorMessage(err, req, res));
 };
