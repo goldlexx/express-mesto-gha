@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { NOT_FOUND_STATUS } = require('./utils/errorName');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -20,7 +21,7 @@ app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
 
 app.use((req, res) => {
-  res.status(404).send({ message: 'Такой страницы не существует' });
+  res.status(NOT_FOUND_STATUS).send({ message: 'Такой страницы не существует' });
 });
 
 async function main() {
