@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { auth } = require('./middlewares/auth');
+const { createUser, login } = require('./controllers/users');
 const { NOT_FOUND_STATUS } = require('./utils/errorName');
 
 const { PORT = 3000 } = process.env;
@@ -9,13 +11,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '62dc1864288df5b962ba7568', // вставьте сюда _id созданного в предыдущем пункте пользователя
-  };
+app.post('/signin', login);
+app.post('/signup', createUser);
 
-  next();
-});
+app.use(auth);
 
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
