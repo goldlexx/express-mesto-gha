@@ -10,4 +10,5 @@ module.exports.handleError = (err, req, res, next) => {
         ? 'На сервере произошла ошибка'
         : message,
     });
+  next();
 };
