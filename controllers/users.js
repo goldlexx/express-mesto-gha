@@ -20,7 +20,7 @@ module.exports.getUserById = (req, res, next) => {
     })
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'CasrError') {
+      if (err.name === 'CastError') {
         next(new BadRequestError('Неверный запрос или данные'));
       } else {
         next(err);
