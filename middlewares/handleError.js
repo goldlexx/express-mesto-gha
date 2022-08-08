@@ -1,4 +1,4 @@
-module.exports.handleError = (err, req, res, next) => {
+module.exports.handleError = (err, req, res) => {
   // если у ошибки нет статуса, выставляем 500
   const { statusCode = 500, message } = err;
 
