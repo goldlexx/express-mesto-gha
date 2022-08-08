@@ -12,23 +12,37 @@ const {
 router.get('/', getUsers);
 router.get('/me', getUserMe);
 
-router.get('/:id', celebrate({
-  params: Joi.object().keys({
-    id: Joi.string().length(24).hex(),
+router.get(
+  '/:id',
+  celebrate({
+    params: Joi.object().keys({
+      id: Joi.string().length(24).hex(),
+    }),
   }),
-}), getUserById);
+  getUserById,
+);
 
-router.patch('/me', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30).required(),
-    about: Joi.string().min(2).max(30).required(),
+router.patch(
+  '/me',
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().min(2).max(30).required(),
+      about: Joi.string().min(2).max(30).required(),
+    }),
   }),
-}), updateUserInfo);
+  updateUserInfo,
+);
 
-router.patch('/me/avatar', celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().required().pattern(/https?:\/\/(www)?[0-9a-z\-._~:/?#[\]@!$&'()*+,;=]+#?$/i),
+router.patch(
+  '/me/avatar',
+  celebrate({
+    body: Joi.object().keys({
+      avatar: Joi.string()
+        .required()
+        .pattern(/https?:\/\/(www)?[0-9a-z\-._~:/?#[\]@!$&'()*+,;=]+#?$/i),
+    }),
   }),
-}), updateUserAvatar);
+  updateUserAvatar,
+);
 
 module.exports = router;
