@@ -1,6 +1,5 @@
 const Card = require('../models/card');
-const ErrorNotFound = require('../errors/ErrorNotFound');
-const Forbidden = require('../errors/Forbidden');
+const { ErrorNotFound, Forbidden } = require('../errors/allErrors');
 const { errorMessage } = require('../utils/errorMessage');
 
 module.exports.getCards = (req, res, next) => {
@@ -14,7 +13,7 @@ module.exports.createCard = (req, res, next) => {
   const ownerId = req.user._id;
   Card.create({ name, link, owner: ownerId })
     .then((card) => res.send({ data: card }))
-    .catch((err) => errorMessage(err, req, res, next, 'Данные карточки невалидны'));
+    .catch((err) => errorMessage(err, req, res, next));
 };
 
 module.exports.deleteCard = (req, res, next) => {
@@ -28,7 +27,7 @@ module.exports.deleteCard = (req, res, next) => {
       }
       return res.send(card);
     })
-    .catch((err) => errorMessage(err, req, res, next, 'Неверный запрос или данные'));
+    .catch((err) => errorMessage(err, req, res, next));
 };
 
 module.exports.likeCard = (req, res, next) => {
@@ -41,7 +40,7 @@ module.exports.likeCard = (req, res, next) => {
       throw new ErrorNotFound('Карточка с таким ID - не найдена');
     })
     .then((card) => res.send({ data: card }))
-    .catch((err) => errorMessage(err, req, res, next, 'Неверный запрос или данные'));
+    .catch((err) => errorMessage(err, req, res, next));
 };
 
 module.exports.dislikeCard = (req, res, next) => {
@@ -54,5 +53,5 @@ module.exports.dislikeCard = (req, res, next) => {
       throw new ErrorNotFound('Карточка с таким ID - не найдена');
     })
     .then((card) => res.send(card))
-    .catch((err) => errorMessage(err, req, res, next, 'Неверный запрос или данные'));
+    .catch((err) => errorMessage(err, req, res, next));
 };

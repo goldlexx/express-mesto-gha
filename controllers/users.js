@@ -1,10 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-
-const BadRequestError = require('../errors/BadRequestError');
-const ErrorNotFound = require('../errors/ErrorNotFound');
-const ErrorConflict = require('../errors/ErrorConflict');
+const { errorMessage } = require('../utils/errorMessage');
+const { ErrorNotFound } = require('../errors/allErrors');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -19,13 +17,7 @@ module.exports.getUserById = (req, res, next) => {
       throw new ErrorNotFound('Пользователь с таким ID - не найден');
     })
     .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Неверный запрос или данные'));
-      } else {
-        next(err);
-      }
-    });
+    .catch((err) => errorMessage(err, req, res, next));
 };
 
 module.exports.getUserMe = (req, res, next) => {
@@ -36,13 +28,7 @@ module.exports.getUserMe = (req, res, next) => {
     .then((user) => {
       res.status(200).send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Неверный запрос или данные'));
-      } else {
-        next(err);
-      }
-    });
+    .catch((err) => errorMessage(err, req, res, next));
 };
 
 module.exports.createUser = (req, res, next) => {
@@ -61,15 +47,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .then((user) => User.findOne({ _id: user._id }))
     .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Неверный запрос или данные'));
-      }
-      if (err.code === 11000) {
-        next(new ErrorConflict('Пользователь с таким email уже существует'));
-      }
-      next(err);
-    });
+    .catch((err) => errorMessage(err, req, res, next));
 };
 
 module.exports.login = (req, res, next) => {
@@ -97,13 +75,7 @@ module.exports.updateUserInfo = (req, res, next) => {
       throw new ErrorNotFound('Пользователь с таким id не найден');
     })
     .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
-        next(new BadRequestError('Неверный запрос или данные.'));
-      } else {
-        next(err);
-      }
-    });
+    .catch((err) => errorMessage(err, req, res, next));
 };
 
 module.exports.updateUserAvatar = (req, res, next) => {
@@ -114,13 +86,5 @@ module.exports.updateUserAvatar = (req, res, next) => {
       throw new ErrorNotFound('Пользователь с таким id не найден');
     })
     .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(
-          new BadRequestError('Данные внесены некорректно или запрос неверный'),
-        );
-      } else {
-        next(err);
-      }
-    });
+    .catch((err) => errorMessage(err, req, res, next));
 };

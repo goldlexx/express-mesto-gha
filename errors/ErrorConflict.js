@@ -6,4 +6,4 @@ class ErrorConflict extends Error {
   }
 }
 
-module.exports = ErrorConflict;
+module.exports = { ErrorConflict };
