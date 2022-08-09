@@ -2,6 +2,7 @@ const Card = require('../models/card');
 const BadRequestError = require('../errors/BadRequestError');
 const ErrorNotFound = require('../errors/ErrorNotFound');
 const Forbidden = require('../errors/Forbidden');
+const errorMessage = require('../utils/errorMessage');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -14,12 +15,7 @@ module.exports.createCard = (req, res, next) => {
   const ownerId = req.user._id;
   Card.create({ name, link, owner: ownerId })
     .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Данные карточки невалидны'));
-      }
-      next(err);
-    });
+    .catch((err) => errorMessage(err, req, res, next, 'Данные карточки невалидны'));
 };
 
 module.exports.deleteCard = (req, res, next) => {
