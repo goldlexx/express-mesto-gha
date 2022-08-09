@@ -1,10 +1,7 @@
 const express = require('express');
-
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const helmet = require('helmet');
 const { celebrate, Joi, errors } = require('celebrate');
-const limiter = require('./utils/limiter');
 const { ErrorNotFound } = require('./errors/allErrors');
 const { auth } = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
@@ -13,8 +10,6 @@ const { handleError } = require('./middlewares/handleError');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-app.use(helmet());
-app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
