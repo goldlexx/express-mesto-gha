@@ -29,13 +29,7 @@ module.exports.deleteCard = (req, res, next) => {
       }
       return res.send(card);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Неверный запрос или данные'));
-      } else {
-        next(err);
-      }
-    });
+    .catch((err) => errorMessage(err, req, res, next, 'Неверный запрос или данные'));
 };
 
 module.exports.likeCard = (req, res, next) => {
@@ -48,13 +42,7 @@ module.exports.likeCard = (req, res, next) => {
       throw new ErrorNotFound('Карточка с таким ID - не найдена');
     })
     .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные'));
-      } else {
-        next(err);
-      }
-    });
+    .catch((err) => errorMessage(err, req, res, next, 'Неверный запрос или данные'));
 };
 
 module.exports.dislikeCard = (req, res, next) => {
@@ -67,11 +55,5 @@ module.exports.dislikeCard = (req, res, next) => {
       throw new ErrorNotFound('Карточка с таким ID - не найдена');
     })
     .then((card) => res.send(card))
-    .catch((err) => {
-      if (err.message === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные'));
-      } else {
-        next(err);
-      }
-    });
+    .catch((err) => errorMessage(err, req, res, next, 'Неверный запрос или данные'));
 };

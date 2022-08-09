@@ -4,12 +4,12 @@ const errorMessage = (err, req, res, next, msg) => {
   if (err.name === 'ValidationError') {
     next(new BadRequestError(msg));
   }
+  if (err.name === 'CastError') {
+    next(new BadRequestError(msg));
+  }
+
   next(err);
 };
-// if (err.name === 'CastError') {
-//   res.status(BAD_REQUEST).send({
-//     message: 'Переданы некорректные данные',
-//   });
 
 //   return;
 // }
