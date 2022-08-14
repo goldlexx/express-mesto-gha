@@ -5,13 +5,16 @@ const helmet = require('helmet');
 const { celebrate, Joi, errors } = require('celebrate');
 const { limiter } = require('./utils/limiter');
 const { ErrorNotFound } = require('./errors/allErrors');
-const { auth } = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
+
+const { auth } = require('./middlewares/auth');
 const { handleError } = require('./middlewares/handleError');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
+app.use(requestLogger);
 app.use(helmet());
 app.use(limiter);
 
@@ -49,6 +52,8 @@ app.use(auth);
 
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
+
+app.use(errorLogger);
 
 app.use(errors());
 
