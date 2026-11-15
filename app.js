@@ -10,8 +10,8 @@ const { createUser, login } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
 const { handleError } = require('./middlewares/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { PORT, DATABASE_URL } = require('./configuration');
 
-const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(requestLogger);
@@ -26,7 +26,7 @@ app.post(
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
-      password: Joi.string().required(),
+      password: Joi.string().min(8).required(),
     }),
   }),
   login,
@@ -37,7 +37,7 @@ app.post(
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
-      password: Joi.string().required(),
+      password: Joi.string().min(8).required(),
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
       avatar: Joi.string().pattern(
@@ -53,9 +53,9 @@ app.use(auth);
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
 
-app.use(errorLogger);
-
 app.use(errors());
+
+app.use(errorLogger);
 
 app.use((req, res, next) => {
   next(new ErrorNotFound('Путь не найден'));
@@ -64,11 +64,22 @@ app.use((req, res, next) => {
 app.use(handleError);
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
-  console.log('Connected to db');
-
-  await app.listen(PORT);
-  console.log(`App listening on port ${PORT}`);
+  await mongoose.connect(DATABASE_URL);
+  await new Promise((resolve, reject) => {
+    const server = app.listen(PORT, () => {
+      console.log(`App listening on port ${PORT}`);
+      resolve();
+    });
+    server.once('error', reject);
+  });
 }
 
-main();
+if (require.main === module) {
+  main().catch(async (err) => {
+    console.error('Failed to start the server:', err.message);
+    await mongoose.disconnect().catch(() => {});
+    process.exitCode = 1;
+  });
+}
+
+module.exports = app;

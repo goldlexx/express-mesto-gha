@@ -17,15 +17,15 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findById(req.params.cardId)
     .orFail(() => {
       throw new ErrorNotFound('Карточка с таким ID - не найдена');
     })
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
-        return next(new Forbidden('Нельзя удалить чужую карточку'));
+        throw new Forbidden('Нельзя удалить чужую карточку');
       }
-      return res.send(card);
+      return Card.findByIdAndDelete(card._id).then((deletedCard) => res.send(deletedCard));
     })
     .catch((err) => errorMessage(err, req, res, next));
 };
