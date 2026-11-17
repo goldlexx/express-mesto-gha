@@ -1,22 +1,35 @@
-# Mesto API
+<div align="center">
 
-An Express and MongoDB API for the Mesto photo-sharing application. It supports account registration and login, user profiles, photo cards, likes, and ownership checks.
+# 🧩 Mesto API
 
-## Stack
+Express и MongoDB API для приложения Mesto.
+
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=fff)](https://nodejs.org/) [![Express](https://img.shields.io/badge/Express-4-000?logo=express)](https://expressjs.com/)
+
+</div>
+
+## Возможности
+
+- регистрация и вход;
+- профили пользователей;
+- карточки фотографий, лайки и проверка владельца.
+
+## Установка и запуск
+
+```bash
+npm ci
+```
+
+Создайте `.env` на основе `.env.example`, задайте `DATABASE_URL` и `JWT_SECRET` длиной не менее 32 символов, затем запустите проект командой из `package.json`.
+
+## Технологии
 
 Node.js, Express, MongoDB, Mongoose, JWT, Celebrate/Joi.
 
-## Configure and run
+## Тестирование
 
-1. Install dependencies with `npm ci`.
-2. Copy `.env.example` to `.env` and set `DATABASE_URL` and a unique `JWT_SECRET` of at least 32 characters.
-3. Start MongoDB locally, then run `npm start` (or `npm run dev` during development).
+Команды тестирования указаны в `package.json`.
 
-The API listens on port `3000` by default; set `PORT` to change it. Never commit `.env` or use a real production secret in local examples.
+## Лицензия
 
-## Checks
-
-- `npm run lint` — ESLint.
-- `npm test` — request and model validation checks that do not require MongoDB.
-
-The database-backed user/card flows need a separate disposable MongoDB database and have not been run as part of this repository's current automated checks.
+Лицензия в репозитории не указана.
